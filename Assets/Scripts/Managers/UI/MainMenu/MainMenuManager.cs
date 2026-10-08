@@ -13,12 +13,14 @@ public class MainMenuManager : MonoBehaviour
 
     public void PlayGameOnClick()
     {
+        print("ougoa");
         SceneManager.LoadScene("MainScene");
         // AudioManager.Instance.PlayGameMusic();
     }
 
     public void OpenCreditOnClick()
     {
+        print("ougoa");
         LeanTween.move(mainMenuRect.gameObject, new Vector3(-offscreenX, 0f, 0f), moveDuration).setEaseOutCubic();
         LeanTween.move(creditRect.gameObject, new Vector3(0, 0f, 0f), moveDuration).setEaseOutCubic();
     }
