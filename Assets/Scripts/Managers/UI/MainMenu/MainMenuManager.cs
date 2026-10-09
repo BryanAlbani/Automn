@@ -14,7 +14,7 @@ public class MainMenuManager : MonoBehaviour
     public void PlayGameOnClick()
     {
        
-        SceneManager.LoadScene("MainScene");
+        SceneManager.LoadScene("UpgradeScene");
         // AudioManager.Instance.PlayGameMusic();
     }
 
