@@ -142,7 +142,7 @@ MonoBehaviour:
   name: Leaf
   minFallSpeed: 50
   maxFallSpeed: 100
-  swayAmplitude: 5
+  swayAmplitude: 10
   swayFrequency: 2
   minRotationSpeed: -30
   maxRotationSpeed: 30

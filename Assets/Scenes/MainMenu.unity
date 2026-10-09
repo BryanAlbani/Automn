@@ -4835,7 +4835,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8214041394854775560, guid: f0d5b63df535b1c43b337b19f3c6e16c, type: 3}
       propertyPath: timeBetweenSpawns
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8214041394854775560, guid: f0d5b63df535b1c43b337b19f3c6e16c, type: 3}
       propertyPath: itemSpawners.Array.size
