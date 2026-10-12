@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class DataManager : PersistentSingleton<DataManager>
 {
@@ -16,6 +17,8 @@ public class DataManager : PersistentSingleton<DataManager>
     public float SpeedBarrel = 1f;
     public float ScaleBarrel = 1f;
 
+    private HashSet<string> purchasedUpgrades = new HashSet<string>();
+
     public void UpdateGlobalHeat(float value)
     {
         GlobalHeatTotal += value;
@@ -30,6 +33,19 @@ public class DataManager : PersistentSingleton<DataManager>
         maxSpawnDuration = 20f;
         SpeedBarrel = 1f;
         ScaleBarrel = 1f;
+        purchasedUpgrades.Clear();
 
+    }
+
+    
+
+    public bool IsUpgradePurchased(string upgradeID)
+    {
+        return purchasedUpgrades.Contains(upgradeID);
+    }
+
+    public void PurchaseUpgrade(string upgradeID)
+    {
+        purchasedUpgrades.Add(upgradeID);
     }
 }

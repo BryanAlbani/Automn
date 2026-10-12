@@ -46,33 +46,28 @@ public class SpawnerManager : Singleton<SpawnerManager>
     }
 
     private IEnumerator SpawnRoutine()
+{
+    float elapsedTime = 0f;
+
+    while (elapsedTime < maxSpawnDuration)
     {
-        float elapsedTime = 0f;
+        SpawnRandomItem();
 
-        while (elapsedTime < maxSpawnDuration)
-        {
-            float waitTime = Mathf.Min(
-                timeBetweenSpawns,
-                maxSpawnDuration - elapsedTime
-            );
 
-            yield return new WaitForSeconds(waitTime);
-            elapsedTime += waitTime;
+        float waitTime = Mathf.Min(timeBetweenSpawns,maxSpawnDuration - elapsedTime);
 
-            if (elapsedTime >= maxSpawnDuration)
-                break;
+        yield return new WaitForSeconds(waitTime);
 
-            SpawnRandomItem();
-        }
-
-        _spawnCoroutine = null;
+        elapsedTime += waitTime;
     }
 
+    _spawnCoroutine = null;
+}
     private void SpawnRandomItem()
     {
         if (itemSpawners.Count == 0)
         {
-            Debug.LogWarning("Aucun ItemSpawner assigné !");
+            Debug.LogWarning("Nothing");
             return;
         }
 

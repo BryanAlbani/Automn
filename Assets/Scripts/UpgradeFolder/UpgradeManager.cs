@@ -1,3 +1,4 @@
+
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -8,22 +9,25 @@ public class UpgradeManager : Singleton<UpgradeManager>
     [SerializeField] private TextMeshProUGUI moneyText;
     [SerializeField] private float animationDuration = 0.5f;
 
+    [SerializeField] private GameObject homeButton;
+    [SerializeField] private ButtonScript[] allUpgradeButtons;
+
+    private float displayedMoney;
+    private Coroutine moneyAnimation;
+
     void Start()
     {
         HeatTotal = DataManager.Instance.GlobalHeatTotal;
         NewMoney(HeatTotal);
-    }
 
-    private float displayedMoney;
-    private Coroutine moneyAnimation;
+        CheckAllUpgradesPurchased();
+    }
 
     public void UpdateMoney(float valueToAdd)
     {
         DataManager.Instance.UpdateGlobalHeat(valueToAdd);
         NewMoney(HeatTotal + valueToAdd);
         HeatTotal += valueToAdd;
-
-
     }
 
     public void NewMoney(float newMoney)
@@ -58,4 +62,27 @@ public class UpgradeManager : Singleton<UpgradeManager>
         moneyAnimation = null;
     }
 
+    public void CheckAllUpgradesPurchased()
+    {
+        if (homeButton == null)
+            return;
+
+        if (allUpgradeButtons == null || allUpgradeButtons.Length == 0)
+        {
+            homeButton.SetActive(false);
+            return;
+        }
+
+        foreach (ButtonScript upgrade in allUpgradeButtons)
+        {
+            if (upgrade == null ||
+                !DataManager.Instance.IsUpgradePurchased(upgrade.UpgradeID))
+            {
+                homeButton.SetActive(false);
+                return;
+            }
+        }
+
+        homeButton.SetActive(true);
+    }
 }

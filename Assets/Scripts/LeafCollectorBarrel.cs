@@ -7,6 +7,11 @@ public class LeafCollectorBarrel : Singleton<LeafCollectorBarrel>
     [SerializeField] private Transform barrel;
     [SerializeField] private Transform flame;
 
+    [SerializeField] private BoxCollider2D barrelCollider;
+
+    private Vector2 initialColliderSize;
+    private Vector2 initialColliderOffset;
+
     [Header("Barrel Parameters")]
     public float SpeedBarrel = 1f;
     public float ScaleBarrel = 1f;
@@ -26,6 +31,8 @@ public class LeafCollectorBarrel : Singleton<LeafCollectorBarrel>
 
         initialPosBarrel = barrel.localPosition;
         initialPosFlame = flame.localPosition;
+        initialColliderSize = barrelCollider.size;
+        initialColliderOffset = barrelCollider.offset;
     }
 
     void Start()
@@ -59,18 +66,17 @@ public class LeafCollectorBarrel : Singleton<LeafCollectorBarrel>
 
         transform.position += Vector3.right * horizontal * SpeedBarrel * Time.deltaTime;
     }
-    
+
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag(targetTag))
         {
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.Burn);
             ItemsFall leaf = other.GetComponent<ItemsFall>();
             UpgradeManager.Instance.UpdateMoney(leaf.valueHeat);
-            // Play sound burn
             Destroy(other.gameObject);
 
-            // Logique increment money
         }
     }
 
@@ -92,5 +98,25 @@ public class LeafCollectorBarrel : Singleton<LeafCollectorBarrel>
 
         barrel.position += Vector3.up * offsetY;
         flame.position += Vector3.up * offsetY;
+
+        UpdateBarrelCollider();
     }
+
+
+    private void UpdateBarrelCollider()
+    {
+        SpriteRenderer barrelRenderer = barrel.GetComponent<SpriteRenderer>();
+
+        if (barrelRenderer == null || barrelCollider == null)
+            return;
+
+        Bounds bounds = barrelRenderer.bounds;
+
+        Vector3 localCenter = transform.InverseTransformPoint(bounds.center);
+
+        barrelCollider.size = new Vector2(bounds.size.x / Mathf.Abs(transform.lossyScale.x),bounds.size.y / Mathf.Abs(transform.lossyScale.y));
+
+        barrelCollider.offset = new Vector2(localCenter.x,localCenter.y + 0.5f);
+    }
+
 }

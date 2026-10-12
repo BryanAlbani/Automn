@@ -13,8 +13,13 @@ public class AudioManager : PersistentSingleton<AudioManager>
 
     [Header("-------AudioClipMusic-------")]
     public AudioClip MusicMainMenu;
-    public AudioClip MusicInGame;
-    public AudioClip MusicEndGame;
+
+
+
+    public AudioClip Burn;
+    public AudioClip Cash;
+    public AudioClip Error;
+   
 
 
     void Start()
