@@ -21,8 +21,16 @@ public class ItemsFall : Singleton<ItemsFall>
     private float _timeOffset;
     private float _previousSway;
 
+    [Header("Fall param")]
+    public float valueHeat = 1f;
+    public float bonusFallSpeed = 1f;
+
+
     private void Start()
     {
+        valueHeat = DataManager.Instance.valueHeat;
+        bonusFallSpeed = DataManager.Instance.bonusFallSpeed;
+        
         _fallSpeed = Random.Range(minFallSpeed, maxFallSpeed);
 
         _rotationSpeed = Random.Range(minRotationSpeed,maxRotationSpeed);
@@ -35,7 +43,7 @@ public class ItemsFall : Singleton<ItemsFall>
     {
         float deltaTime = Time.deltaTime;
 
-        transform.position += Vector3.down * _fallSpeed * deltaTime;
+        transform.position += Vector3.down * (_fallSpeed * bonusFallSpeed) * deltaTime;
 
         float sway = Mathf.Sin(Time.time * swayFrequency + _timeOffset) * swayAmplitude;
 

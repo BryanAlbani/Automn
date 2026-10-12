@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class SpawnerManager : MonoBehaviour
+public class SpawnerManager : Singleton<SpawnerManager>
 {
 
     [SerializeField] private List<ItemSpawner> itemSpawners = new();
@@ -11,16 +11,19 @@ public class SpawnerManager : MonoBehaviour
     [SerializeField] private bool startAutomatically = true;
     private Coroutine _spawnCoroutine;
 
-    [Header("Paramètres du spawn")]
+    [Header("Spawn param")]
     [Min(0.01f)]
-    [SerializeField] private float timeBetweenSpawns = 2f;
+    public float timeBetweenSpawns = 5f;
 
     [Min(0f)]
-    [SerializeField] private float maxSpawnDuration = 30f;
+    public float maxSpawnDuration = 20f;
 
     
     private void Start()
     {
+        timeBetweenSpawns = DataManager.Instance.timeBetweenSpawns;
+        maxSpawnDuration = DataManager.Instance.maxSpawnDuration;
+
         if (startAutomatically)
             StartSpawning();
     }
